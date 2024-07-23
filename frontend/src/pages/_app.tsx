@@ -2,8 +2,10 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import WagmiProvider from "../utils/wagmiprovider";
+import dynamic from "next/dynamic";
 import Head from "next/head";
-import Navbar from "@/components/Navbar";
+
+const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
 
 const colors = {
   brand: {
