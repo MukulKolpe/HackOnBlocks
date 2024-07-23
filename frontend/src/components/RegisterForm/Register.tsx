@@ -184,7 +184,7 @@ const RegisterForm = () => {
             <FormHelperText>Short Bio. URLs are hyperlinked.</FormHelperText>
           </FormControl>
 
-          <FormControl mt="2%">
+          <FormControl>
             <FormLabel
               fontWeight={"normal"}
               color="gray.700"
