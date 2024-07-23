@@ -1,1 +1,9 @@
 ## HackOnBlocks
+
+Deployed contract Addresses on Polygon zkEVM cardona testnet 
+
+GovernanceToken: 0xC4A0fafFd686C4852020ED50152F6A171b2554ad
+
+CreateGovernanceToken: 0x7aD0A9dB054101be9428fa89bB1194506586D1aD
+
+UserSide: 0xd0A9c6e7FF012F22Ba52038F9727b50e16466176
