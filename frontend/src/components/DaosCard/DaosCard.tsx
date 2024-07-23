@@ -112,33 +112,7 @@ const DaosCard = ({
         duration: 5000,
         isClosable: true,
       });
-    } else {
-      const particleProvider = new ParticleProvider(particle.auth);
-      const accounts = await particleProvider.request({
-        method: "eth_accounts",
-      });
-      const ethersProvider = new ethers.providers.Web3Provider(
-        particleProvider,
-        "any"
-      );
-      const signer = ethersProvider.getSigner();
-
-      const contract = new ethers.Contract(
-        process.env.NEXT_PUBLIC_USERSIDE_ADDRESS,
-        usersideabi,
-        signer
-      );
-      const tx = await contract.joinDao(daoId, accounts[0]);
-      await tx.wait();
-
-      toast({
-        title: "Congratulations!",
-        description: "You have successfully joined the DAO",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
-    }
+    } 
   };
   return (
     <Center>
