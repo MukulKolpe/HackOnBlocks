@@ -110,15 +110,23 @@ const Explore = () => {
   return (
     <Box>
       {isLoading ? (
-        <AbsoluteCenter>
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="orange.500"
-            size="xl"
-          />
-        </AbsoluteCenter>
+        <>
+          <AbsoluteCenter>
+            {/* <Box display="flex" flexDirection="column"> */}
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="orange.500"
+              size="xl"
+            />
+
+            {/* </Box> */}
+          </AbsoluteCenter>
+          <AbsoluteCenter style={{ marginTop: "60px", whiteSpace: "nowrap" }}>
+            <h2>Loading Public DAOs</h2>
+          </AbsoluteCenter>
+        </>
       ) : (
         <Container
           maxW={"7xl"}
