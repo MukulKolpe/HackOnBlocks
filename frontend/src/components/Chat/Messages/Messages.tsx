@@ -50,7 +50,7 @@ const Messages = ({ userAdd, messages }) => {
           );
         }
       })}
-      <AlwaysScrollToBottom />
+      {/* <AlwaysScrollToBottom /> */}
     </Flex>
   );
 };
