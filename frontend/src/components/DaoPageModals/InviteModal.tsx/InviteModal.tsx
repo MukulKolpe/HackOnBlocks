@@ -18,6 +18,7 @@ export default function InviteModal({
   setInviteAddress,
   inviteAddress,
   inviteMember,
+  submitSt,
 }) {
   return (
     <Modal isOpen={isStartOpen} onClose={onStartClose}>
@@ -39,6 +40,9 @@ export default function InviteModal({
             onClick={() => {
               inviteMember();
             }}
+            isLoading={submitSt}
+            loadingText={"Adding..."}
+            colorScheme="orange"
           >
             Submit
           </Button>
