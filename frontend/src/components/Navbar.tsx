@@ -57,8 +57,13 @@ export default function Navbar() {
             ml="2"
             color="brand.00"
           >
-            <Link href="/" mt={1}>
-              DAOBlocks
+            <Link href="/" mt={4}>
+              <Image
+                src="/assets/logo.png"
+                alt="Logo"
+                width={170}
+                height={300}
+              />
             </Link>
           </HStack>
           <Flex alignItems={"center"}>
