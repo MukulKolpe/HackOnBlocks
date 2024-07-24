@@ -236,6 +236,13 @@ export default function FileShare({
         >
           View all files
         </Button>
+        <Button
+          ml={2}
+          onClick={() => router.push(`/dao/chat/${daoInfo.daoId}`)}
+          mt={10}
+        >
+          Chat
+        </Button>
       </Box>
     </Flex>
   );
