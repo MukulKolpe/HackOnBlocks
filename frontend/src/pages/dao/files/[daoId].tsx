@@ -102,7 +102,7 @@ const Files = () => {
               <Center>
                 <Image
                   alt="Document"
-                  srcSet={selectedDocument[3]}
+                  srcSet={`https://gateway.lighthouse.storage/ipfs/${selectedDocument[3]}`}
                   width={400}
                   height={400}
                   objectFit={"cover"}
