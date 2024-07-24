@@ -43,7 +43,6 @@ import {
 import DaosCard from "../../components/DaosCard/DaosCard";
 import { Spinner } from "@chakra-ui/react";
 
-
 const Explore = () => {
   const [daos, setDaos] = useState([]);
   const [totaluserDAO, setTotaluserDAO] = useState(0);
@@ -53,64 +52,6 @@ const Explore = () => {
     if (window.ethereum._state.accounts.length !== 0) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      const userSideInstance = new ethers.Contract(
-        process.env.NEXT_PUBLIC_USERSIDE_ADDRESS,
-        usersideabi,
-        signer
-      );
-      const tempTotalDaos = Number(await userSideInstance.totalDaos());
-      let tempCreatorId,
-        tempDaoInfo,
-        tempCreatorInfo,
-        tempTokenAddress,
-        tempTokenName,
-        tempTokenSymbol;
-      for (let i = 1; i <= tempTotalDaos; i++) {
-        tempDaoInfo = await userSideInstance.daoIdtoDao(i);
-        tempCreatorId = Number(tempDaoInfo.creator);
-        console.log("Creator Id: " + tempCreatorId);
-        tempCreatorInfo = await userSideInstance.userIdtoUser(tempCreatorId);
-        console.log(tempCreatorInfo);
-        tempTokenAddress = tempDaoInfo.governanceTokenAddress;
-        console.log("TokenAddress: " + tempTokenAddress);
-        const governanceTokenInstance = new ethers.Contract(
-          tempTokenAddress,
-          governancetokenabi,
-          signer
-        );
-        console.log(governanceTokenInstance);
-        tempTokenName = await governanceTokenInstance.name();
-        console.log("Token Name: " + tempTokenName);
-        tempTokenSymbol = await governanceTokenInstance.symbol();
-        console.log("Token Symbol: " + tempTokenSymbol);
-        setDaos((daos) => [
-          ...daos,
-          {
-            daoInfo: tempDaoInfo,
-            creatorInfo: tempCreatorInfo,
-            tokenName: tempTokenName,
-            tokenSymbol: tempTokenSymbol,
-          },
-        ]);
-      }
-
-      console.log(tempDaoInfo);
-      const totalUsersDAO = await userSideInstance.getAllDaoMembers(
-        tempDaoInfo.daoId
-      );
-      setTotaluserDAO(totalUsersDAO.length);
-      setIsLoading(false);
-      console.log("This is: " + totalUsersDAO.length);
-    } else {
-      const particleProvider = new ParticleProvider(particle.auth);
-      const accounts = await particleProvider.request({
-        method: "eth_accounts",
-      });
-      const ethersProvider = new ethers.providers.Web3Provider(
-        particleProvider,
-        "any"
-      );
-      const signer = ethersProvider.getSigner();
       const userSideInstance = new ethers.Contract(
         process.env.NEXT_PUBLIC_USERSIDE_ADDRESS,
         usersideabi,
