@@ -56,7 +56,6 @@ const chat = () => {
         }),
       });
       const data = await res.json();
-      console.log(data);
       setMessages(data);
     }
   };
@@ -73,7 +72,6 @@ const chat = () => {
       );
       const accounts = await provider.listAccounts();
       const res = await contract.daoIdtoDao(BigInt(daoNum));
-      console.log(res);
       setDaoInfo(res);
 
       const res2 = await contract.getAllDaoMembers(BigInt(daoNum));
@@ -88,7 +86,7 @@ const chat = () => {
       loadData();
       getDaoInfo();
     }
-  }, [router]);
+  }, [router,messages]);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim().length) {
