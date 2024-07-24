@@ -39,6 +39,7 @@ export default function ProposalModal({
   addProposal,
   isAddOpen,
   onAddClose,
+  submitSt,
 }) {
   return (
     <Modal isOpen={isAddOpen} onClose={onAddClose}>
@@ -206,7 +207,14 @@ export default function ProposalModal({
           </FormControl>
         </ModalBody>
         <ModalFooter>
-          <Button onClick={() => addProposal()}>Submit</Button>
+          <Button
+            colorScheme={"orange"}
+            isLoading={submitSt}
+            loadingText={"Submitting..."}
+            onClick={() => addProposal()}
+          >
+            Submit
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

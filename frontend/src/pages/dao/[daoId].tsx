@@ -64,6 +64,7 @@ const DaoPage = () => {
   const [docDesc, setDocDesc] = useState("");
   const [ipfsUrl, setIpfsUrl] = useState("");
   const [profileImage, setProfileImage] = useState("");
+  const [submitSt, setSubmitSt] = useState(false);
   const inputRef = useRef(null);
   const toast = useToast();
 
@@ -118,7 +119,17 @@ const DaoPage = () => {
         inviteAddress,
         accounts[0]
       );
+      setSubmitSt(true);
       await tx.wait();
+      setSubmitSt(false);
+      toast({
+        title: "Member Added",
+        description: `${inviteAddress} is now part of the DAO.`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      onStartClose();
     } else {
       console.log("Metamask Not connected");
     }
@@ -140,8 +151,9 @@ const DaoPage = () => {
         daoInfo.daoId,
         ipfsUrl
       );
-
+      setSubmitSt(true);
       await tx.wait();
+      setSubmitSt(false);
 
       toast({
         title: "Document Uploaded",
@@ -150,6 +162,7 @@ const DaoPage = () => {
         duration: 5000,
         isClosable: true,
       });
+      onUploadClose();
     }
   };
 
@@ -257,6 +270,7 @@ const DaoPage = () => {
         const tempAdminInfo = await userSideInstance.userIdtoUser(tempAdminId);
         console.log(tempAdminInfo);
         setAdminInfo(tempAdminInfo);
+        loadAllProposals(daoId);
       }
     } else {
       console.log("Dao doesn't exist");
@@ -290,7 +304,9 @@ const DaoPage = () => {
         process.env.NEXT_PUBLIC_USERSIDE_ADDRESS,
         minThreshold
       );
+      setSubmitSt(true);
       await tx.wait();
+      setSubmitSt(false);
       toast({
         title: "Congrats! Transaction Complete",
         description: `Your vote will be counted soon.`,
@@ -304,7 +320,9 @@ const DaoPage = () => {
         userResponse,
         account.address
       );
+      setSubmitSt(true);
       await tx2.wait();
+      setSubmitSt(false);
       toast({
         title: "Congrats.",
         description: `Your vote has been counted.`,
@@ -313,17 +331,21 @@ const DaoPage = () => {
         isClosable: true,
         position: "top-right",
       });
+      onVoteClose();
     }
   };
 
   useEffect(() => {
-    onLoad();
+    if (router) {
+      onLoad();
+    }
   }, [router]);
 
   console.log(proposalArray);
 
-  const loadAllProposals = async () => {
-    if (window.ethereum._state.accounts.length !== 0) {
+  const loadAllProposals = async (daoId) => {
+    if (window.ethereum._state.accounts.length !== 0 && daoId) {
+      console.log("Went Inside");
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const userSideContract = new ethers.Contract(
@@ -333,16 +355,14 @@ const DaoPage = () => {
       );
 
       const totalProposals = Number(
-        await userSideContract.getAllDaoProposals(BigInt(daoInfo.daoId))
+        await userSideContract.getAllDaoProposals(BigInt(daoId))
       );
       let tempProposalId,
         tempProposalInfo,
         governanceTokenContract,
         tokenSymbol,
         tokenName;
-      let tempProposalArray = await userSideContract.getAllDaoProposals(
-        daoInfo.daoId
-      );
+      let tempProposalArray = await userSideContract.getAllDaoProposals(daoId);
 
       console.log(tempProposalArray);
       for (let i = 0; i < tempProposalArray.length; i++) {
@@ -431,8 +451,9 @@ const DaoPage = () => {
         passingThreshold,
         voteOnce
       );
-
+      setSubmitSt(true);
       await tx.wait();
+      setSubmitSt(false);
 
       toast({
         title: "Proposal Created",
@@ -441,6 +462,7 @@ const DaoPage = () => {
         duration: 5000,
         isClosable: true,
       });
+      onAddClose();
     }
   };
 
@@ -504,7 +526,7 @@ const DaoPage = () => {
     return <Center>Loading...</Center>;
   }
 
-  if (daoInfo.isPrivate && !isMember) {
+  if (!isMember) {
     return (
       <Box textAlign="center" py={10} px={6}>
         <NotAllowedIcon boxSize={"50px"} color={"red.500"} />
@@ -531,6 +553,7 @@ const DaoPage = () => {
             address={address}
             handleSizeClick1={handleSizeClick1}
             handleSizeClick3={handleSizeClick3}
+            submitSt={submitSt}
           />
           {isMember && (
             <>
@@ -548,6 +571,7 @@ const DaoPage = () => {
                 uploadIPFS={uploadFile}
                 handleSubmit={handleSubmit}
                 daoInfo={daoInfo}
+                submitSt={submitSt}
               />
             </>
           )}
@@ -583,6 +607,7 @@ const DaoPage = () => {
         getVotingResults={getVotingResults}
         loadAllProposals={loadAllProposals}
         filteringDaos={filteringDaos}
+        submitSt={submitSt}
       />
 
       <ProposalModal
@@ -598,6 +623,7 @@ const DaoPage = () => {
         addProposal={addProposal}
         isAddOpen={isAddOpen}
         onAddClose={onAddClose}
+        submitSt={submitSt}
       />
       <VoteModal
         isVoteOpen={isVoteOpen}
@@ -606,6 +632,7 @@ const DaoPage = () => {
         authorizeContract={authorizeContract}
         setUserResponse={setUserResponse}
         userResponse={userResponse}
+        submitSt={submitSt}
       />
       <InviteModal
         isStartOpen={isStartOpen}
@@ -613,6 +640,7 @@ const DaoPage = () => {
         setInviteAddress={setInviteAddress}
         inviteAddress={inviteAddress}
         inviteMember={inviteMembertoDao}
+        submitSt={submitSt}
       />
       <VoteResults
         isEndOpen={isEndOpen}
@@ -621,6 +649,7 @@ const DaoPage = () => {
         noVotes={noVotes}
         abstainVotes={abstainVotes}
         finalVerdict={finalVerdict}
+        submitSt={submitSt}
       />
     </div>
   );

@@ -39,6 +39,7 @@ export default function FileShare({
   uploadIPFS,
   handleSubmit,
   daoInfo,
+  submitSt,
 }) {
   const router = useRouter();
   const [tempFile, setTempFile] = useState();
@@ -213,13 +214,14 @@ export default function FileShare({
             </ModalBody>
             <ModalFooter>
               <Button
-                display="block"
                 mx="auto"
                 mt={6}
                 w="10rem"
-                colorScheme="purple"
+                colorScheme="orange"
                 variant="solid"
                 onClick={handleSubmit}
+                isLoading={submitSt}
+                loadingText={"Uploading..."}
               >
                 Upload
               </Button>
