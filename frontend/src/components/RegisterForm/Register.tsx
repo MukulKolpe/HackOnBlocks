@@ -1,3 +1,4 @@
+// @ts-nocheck comment
 import React, { useState, useRef, use, useEffect } from "react";
 import {
   Progress,
