@@ -25,10 +25,12 @@ import {
   Box,
   Heading,
   Text,
+  AbsoluteCenter,
 } from "@chakra-ui/react";
 import { CheckCircleIcon, NotAllowedIcon } from "@chakra-ui/icons";
 import UserSideAbi from "@/utils/abis/usersideabi.json";
 import GovernanceTokenAbi from "@/utils/abis/governancetokenabi.json";
+import { Spinner } from "@chakra-ui/react";
 
 const DaoPage = () => {
   const router = useRouter();
@@ -523,7 +525,11 @@ const DaoPage = () => {
   };
 
   if (loading) {
-    return <Center>Loading...</Center>;
+    return (
+      <AbsoluteCenter>
+        <Spinner />
+      </AbsoluteCenter>
+    );
   }
 
   if (!isMember) {
