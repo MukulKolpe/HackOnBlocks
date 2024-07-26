@@ -65,6 +65,15 @@ export default function Footer() {
               <FaGithub />
             </a>
           </SocialButton>
+          <SocialButton label={"YouTube"}>
+            <a
+              href="https://www.youtube.com/watch?v=MHpwGmgbBIg"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaYoutube />
+            </a>
+          </SocialButton>
         </Stack>
       </Container>
       <ScrollToTop
