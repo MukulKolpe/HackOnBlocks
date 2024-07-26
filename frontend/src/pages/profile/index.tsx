@@ -143,7 +143,7 @@ const Profile = () => {
                 <Text mt={2}>{dao.daoInfo.daoDescription}</Text>
                 <Link
                   color="teal.500"
-                  href={`https://dao-blocks.vercel.app/dao/${dao.daoInfo[0].toString()}`}
+                  href={`/dao/${dao.daoInfo[0].toString()}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   position="absolute"
