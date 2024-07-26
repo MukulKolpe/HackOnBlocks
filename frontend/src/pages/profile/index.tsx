@@ -20,13 +20,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import { FaExternalLinkAlt } from "react-icons/fa";
-import { useRouter } from "next/router";
 
 const Profile = () => {
   const account = useAccount();
   const [userDaos, setUserDaos] = useState([]);
   const [userInfo, setuserInfo] = useState([]);
-  const router = useRouter();
 
   const onLoad = async () => {
     if (window.ethereum._state.accounts.length !== 0) {
