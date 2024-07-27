@@ -25,7 +25,7 @@ Managing DAOs requires technical expertise, creating high entry barriers and ine
 
 Before you begin, ensure you have the following installed:
 
-- **:** Follow the installation instructions in the [ documentation](https://book.get.sh/).
+- Follow the installation instructions in the [Foundry documentation](https://book.getfoundry.sh/).
 
 For Windows users, it is recommended to use Windows Subsystem for Linux (WSL) for the Foundry setup.
 
