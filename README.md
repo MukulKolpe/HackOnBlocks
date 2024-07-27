@@ -25,7 +25,7 @@ Managing DAOs requires technical expertise, creating high entry barriers and ine
 
 Before you begin, ensure you have the following installed:
 
-- **Foundry:** Follow the installation instructions in the [Foundry documentation](https://book.getfoundry.sh/).
+- **:** Follow the installation instructions in the [ documentation](https://book.get.sh/).
 
 For Windows users, it is recommended to use Windows Subsystem for Linux (WSL) for the Foundry setup.
 
@@ -47,13 +47,13 @@ cd HackOnBlocks/contracts/
 
 #### Setting Up Environment Variables
 
-1. Create a file named `.env` in the foundry directory.
+1. Create a file named `.env` in the contracts directory.
 
 2. Configure the `.env` file according to the provided `.env.example` file.
 
 #### Installing Dependencies
 
-Install the necessary dependencies using Foundry:
+Install the necessary dependencies for the Foundry setup:
 
 ```bash
 forge install
