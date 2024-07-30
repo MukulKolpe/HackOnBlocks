@@ -1,12 +1,16 @@
 //@ts-nocheck comment
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
 
 const Messages = ({ userAdd, messages }) => {
+  const [signal, setSignal] = useState(0);
   const AlwaysScrollToBottom = () => {
-    const elementRef = useRef();
-    useEffect(() => elementRef.current.scrollIntoView());
-    return <div ref={elementRef} />;
+    if (signal == 0) {
+      const elementRef = useRef();
+      useEffect(() => elementRef.current.scrollIntoView());
+      setSignal(1);
+      return <div ref={elementRef} />;
+    }
   };
 
   return (
@@ -50,7 +54,7 @@ const Messages = ({ userAdd, messages }) => {
           );
         }
       })}
-      {/* <AlwaysScrollToBottom /> */}
+      <AlwaysScrollToBottom />
     </Flex>
   );
 };

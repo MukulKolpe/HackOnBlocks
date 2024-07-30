@@ -8,9 +8,11 @@ import Header from "@/components/Chat/Header/Header";
 import Messages from "@/components/Chat/Messages/Messages";
 import usersideabi from "@/utils/abis/usersideabi.json";
 import { ethers } from "ethers";
+import io from "socket.io-client";
 
 const chat = () => {
   const router = useRouter();
+  const socket = io("localhost:8000");
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -37,6 +39,17 @@ const chat = () => {
   const [daoInfo, setDaoInfo] = useState();
   const [daoMembers, setDaoMembers] = useState([]);
 
+  function connectSocket() {
+    socket.on("connection", (socket) => {
+      console.log(socket);
+    });
+
+    socket.on("msgRes", (msgRes) => {
+      console.log(msgRes);
+      setMessages(msgRes);
+    });
+  }
+
   const loadData = async () => {
     if (window.ethereum._state.accounts.length !== 0) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -46,17 +59,21 @@ const chat = () => {
       console.log("Metamask not connected");
     }
     if (router?.query?.daoId) {
-      const res = await fetch(`/api/get-messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          daoId: router.query.daoId,
-        }),
+      // const res = await fetch(`http://localhost:8000/get-messages`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({
+      //     daoId: router.query.daoId,
+      //   }),
+      // });
+      // const data = await res.json();
+      // console.log(data);
+      // setMessages(data);
+      socket.emit("msgReq", {
+        daoId: router.query.daoId,
       });
-      const data = await res.json();
-      setMessages(data);
     }
   };
 
@@ -72,6 +89,7 @@ const chat = () => {
       );
       const accounts = await provider.listAccounts();
       const res = await contract.daoIdtoDao(BigInt(daoNum));
+      console.log(res);
       setDaoInfo(res);
 
       const res2 = await contract.getAllDaoMembers(BigInt(daoNum));
@@ -83,10 +101,11 @@ const chat = () => {
 
   useEffect(() => {
     if (router?.query?.daoId) {
+      connectSocket();
       loadData();
       getDaoInfo();
     }
-  }, [router,messages]);
+  }, [router]);
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim().length) {
@@ -104,19 +123,25 @@ const chat = () => {
     ]);
     setInputMessage("");
 
-    const res = await fetch(`/api/post-message`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        daoId: router?.query?.daoId,
-        messageBody: data,
-        userWallet: userAdd,
-      }),
+    // const res = await fetch(`http://localhost:8000/post-message`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    // daoId: router?.query?.daoId,
+    // messageBody: data,
+    // userWallet: userAdd,
+    //   }),
+    // });
+
+    socket.emit("postMsg", {
+      daoId: router?.query?.daoId,
+      messageBody: data,
+      userWallet: userAdd,
     });
 
-    loadData();
+    //loadData();
 
     // setTimeout(() => {
     //   setMessages((old) => [...old, { from: "computer", text: data }]);
